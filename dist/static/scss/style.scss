@@ -40,7 +40,6 @@ body {
 	color: $primaryColor;
 }
 .card {
-	overflow: hidden;
 	margin: 15px;
 	background: #fff;
 	border: 1px solid #ddd;
@@ -111,6 +110,7 @@ body {
 	}
 }
 .overflow {
+	overflow: hidden;
 	.detail-head {
 		float: left;
 	}
