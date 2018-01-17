@@ -485,6 +485,7 @@ export default {
 
       let paramItem = {
         'isComEdit': 0,
+        'isInfoEdit': 1,
         'lawId': this.lawId,
         'communityIds': communityIds
       }
