@@ -4,10 +4,208 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>登录-艾特律师管理系统</title>
+    <script src="http://cdn.bootcss.com/jquery/1.12.3/jquery.min.js"></script>
+    <style>
+    	html, body {
+			height: 100%;
+			margin: 0;
+    	}
+    	body {
+    		position: relative;
+    		background: #eee;
+    	}
+    	.text-center {
+    		text-align: center;
+    	}
+    	.header {
+    		text-align: center;
+    		position: relative;
+    		top: 20%;
+    	}
+    	.login {
+    		width: 400px;
+    		height: 240px;
+    		border: 1px solid #ccc;
+    		border-radius: 6px;
+    		position: absolute;
+    		left: 50%;
+    		top: 50%;
+    		margin-left: -200px;
+    		margin-top: -100px;
+    		background: #fff;
+    	}
+    	.login ul {
+    		list-style-type: none;
+    		padding: 0;
+    		margin: 35px 0;
+    	}
+    	.login ul li {
+			margin-bottom: 35px;
+			overflow: hidden;
+    	}
+    	.login ul li span.important {
+			color: red;
+    	}
+    	.login ul li span.field {
+    		width: 100px;
+    		display: block;
+    		float: left;
+    		text-align: right;
+    	}
+    	.login ul li div.error {
+    		color: red;
+    		font-size: 12px;
+    		display: none;
+    		position: absolute;
+    	}
+    	.login ul li > div {
+    		margin-left: 110px;
+    		display: block;
+    	}
+    	.login ul li .input {
+    		display: inline-block;
+		    /*width: ;*/
+		    height: 22px;
+		    line-height: 1;
+		    padding: 4px 7px;
+		    font-size: 12px;
+		    border: 1px solid #dddee1;
+		    border-radius: 4px;
+		    color: #495060;
+		    background-color: #fff;
+		    background-image: none;
+		    position: relative;
+		    cursor: text;
+		    transition: border .2s ease-in-out,background .2s ease-in-out,box-shadow .2s ease-in-out;
+    	}
+    	.login ul li > div .input {
+    		width: 80%;
+    	}
+    	.login ul li .input:hover {
+    		border-color: #57a3f3;
+    	}
+    	.login ul li .input:focus {
+		    border-color: #57a3f3;
+		    outline: 0;
+		    box-shadow: 0 0 0 2px rgba(45,140,240,.2);
+		}
+		.login ul li .btn {
+			display: inline-block;
+		    margin-bottom: 0;
+		    font-weight: 400;
+		    text-align: center;
+		    vertical-align: middle;
+		    -ms-touch-action: manipulation;
+		    touch-action: manipulation;
+		    cursor: pointer;
+		    background-image: none;
+		    border: 1px solid transparent;
+		    white-space: nowrap;
+		    line-height: 1.5;
+		    -webkit-user-select: none;
+		    -moz-user-select: none;
+		    -ms-user-select: none;
+		    user-select: none;
+		    padding: 6px 15px;
+		    font-size: 12px;
+		    border-radius: 4px;
+		    transition: color .2s linear,background-color .2s linear,border .2s linear;
+		    color: #495060;
+		    background-color: #f7f7f7;
+		    border-color: #dddee1;
+		}
+		.login ul li .btn {
+			margin-right: 10px;
+		}
+		.login ul li .btn.primary {
+			color: #fff;
+		    background-color: #2d8cf0;
+		    border-color: #2d8cf0;
+		}
+		.login ul li .btn.default {
+			color: #495060;
+		    background-color: transparent;
+		    border-color: #dddee1;
+		}
+    </style>
 
   </head>
   <body>
-  登录！！
-    <!-- <div id="app"></div> -->
+  	<h2 class="header">艾特律师后台管理系统登录</h2>
+  	<div class="login">
+  		<ul>
+  			<li>
+  				<span class="field">操作员ID<span class="important">*</span></span>
+  				<div>
+	  				<input class="input" type="text" id="operId" placeholder="请输入操作员ID">
+	  				<div class="error">请输入操作员ID</div>
+  				</div>
+  			</li>
+  			<li>
+  				<span class="field">密码<span class="important">*</span></span>
+  				<div>
+  					<input class="input" type="password" id="password" placeholder="请输入密码">
+  					<div class="error">请输入密码</div>
+  				</div>
+  			</li>
+  			<li class="text-center">
+  				<button class="btn primary" id="login">登录</button>
+  				<button class="btn default" id="reset">重置</button>
+  			</li>
+  		</ul>
+  	</div>
   </body>
+  <script>
+  	var host = 'http://47.94.196.243:53100'
+	function getDate () {
+	  return new Date().getFullYear() + '' + ((new Date().getMonth() + 1) < 10 ? ('0' + (new Date().getMonth() + 1)) : (new Date().getMonth() + 1)) + '' + (new Date().getDate() < 10 ? ('0' + new Date().getDate()) : new Date().getDate())
+	}
+	function getTime () {
+	  return new Date().getHours() + '' + ((new Date().getMinutes() + 1) < 10 ? ('0' + (new Date().getMinutes() + 1)) : (new Date().getMinutes() + 1)) + '' + (new Date().getSeconds() < 10 ? ('0' + new Date().getSeconds()) : new Date().getSeconds())
+	}
+  	$('#login').on('click', function(){
+  		if (!$('#operId').val()) {
+  			$('#operId').focus()
+  			$('#operId').next('.error').show()
+  			return
+  		}
+  		$('#operId').next('.error').hide()
+  		if (!$('#password').val()) {
+  			$('#password').focus()
+  			$('#password').next('.error').show()
+  			return
+  		}
+  		$('#password').next('.error').hide()
+  		$.ajax({
+	        url: host + '/atLawyer/manager',
+	        type: 'POST',
+	        data: {
+	          head: {
+			      tranCode: 'MGN0110',
+			      busDate: getDate(),
+			      busTime: getTime()
+			  },
+			  body: {
+			  	operId: $('#operId').val(),
+			  	password: $('#password').val()
+			  }
+	        },
+	        headers: {
+	          tranCode: 'MGN0110'
+	        },
+	        // dataType: 'jsonp',
+	        xhrFields: {
+	          withCredentials: true
+	        },
+	        success: (res, textStatus, jqXHR) => {
+	          console.log('ok!!!!', res)
+	          alert('登录成功!')
+	        },
+	        error: (xhr, textStatus) => {
+	          console.log('错误')
+	          alert('登录失败!')
+	        }
+	      })
+  	})
+  </script>
 </html>
