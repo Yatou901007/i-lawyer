@@ -1,5 +1,7 @@
 // const host = 'http://localhost:18082'
-const host = 'http://47.94.196.243:53100'
+// const host = 'http://47.94.196.243:53100'
+// const host = 'https://39.107.108.37:8443'
+const host = __HOST
 const hostFront = host + '/atLawyer'
 
 function getDate () {
