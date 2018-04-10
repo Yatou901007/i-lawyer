@@ -111,7 +111,11 @@ export default {
         // },
         {
           title: '注册日期',
-          key: 'tripNums'
+          key: 'regDate',
+          render: (h, params) => {
+            let date = params.row.regDate
+            return h('div', date != null ? (date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6, 8)) : '')
+          }
         },
         {
           title: '操作',

@@ -241,19 +241,35 @@ export default {
         },
         {
           title: '行程日期',
-          key: 'tripDate'
+          key: 'tripDate',
+          render: (h, params) => {
+            let date = params.row.tripDate
+            return h('div', date != null ? (date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6, 8)) : '')
+          }
         },
         {
           title: '行程时间',
-          key: 'tripTime'
+          key: 'tripTime',
+          render: (h, params) => {
+            let date = params.row.tripTime
+            return h('div', date != null ? (date.substring(0, 2) + ':' + date.substring(2, 4) + ':' + date.substring(4, 6)) : '')
+          }
         },
         {
           title: '签到日期',
-          key: 'signDate'
+          key: 'signDate',
+          render: (h, params) => {
+            let date = params.row.signDate
+            return h('div', date != null ? (date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6, 8)) : '')
+          }
         },
         {
           title: '签到时间',
-          key: 'signTime'
+          key: 'signTime',
+          render: (h, params) => {
+            let date = params.row.signTime
+            return h('div', date != null ? (date.substring(0, 2) + ':' + date.substring(2, 4) + ':' + date.substring(4, 6)) : '')
+          }
         },
         {
           title: '行程评分',

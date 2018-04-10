@@ -30,8 +30,9 @@
               </Col>
               <Col span="8">
                   行程日期：
-                  <span v-if="dataDetail.tripDate">{{dataDetail.tripDate}}</span>
-                  <span v-if="!dataDetail.tripDate" class="subtitle">暂无</span>
+                  <span v-if="dataDetail.tripDate">{{dataDetail.tripDate.substring(0, 4) + '-' + dataDetail.tripDate.substring(4, 6) + '-' + dataDetail.tripDate.substring(6, 8)}}</span>
+                  <span v-if="dataDetail.tripTime"> {{dataDetail.tripTime.substring(0, 2) + ':' + dataDetail.tripTime.substring(2, 4) + ':' + dataDetail.tripTime.substring(4, 6)}}</span>
+                  <span v-if="!dataDetail.tripDate && !dataDetail.tripTime" class="subtitle">暂无</span>
               </Col>
               <!-- <Col span="8">
                   行程状态：
@@ -50,8 +51,9 @@
           <Row>
               <Col span="8">
                   上门服务签到时间：
-                  <span v-if="dataDetail.signDate">{{dataDetail.signDate}}{{dataDetail.signTime}}</span>
-                  <span v-if="!dataDetail.signDate" class="subtitle">暂无</span>
+                  <span v-if="dataDetail.signDate">{{dataDetail.signDate.substring(0, 4) + '-' + dataDetail.signDate.substring(4, 6) + '-' + dataDetail.signDate.substring(6, 8)}}</span>
+                  <span v-if="dataDetail.signTime"> {{dataDetail.signTime.substring(0, 2) + ':' + dataDetail.signTime.substring(2, 4) + ':' + dataDetail.signTime.substring(4, 6)}}</span>
+                  <span v-if="!dataDetail.signDate && !dataDetail.signTime" class="subtitle">暂无</span>
               </Col>
               <Col span="8">
                   上门服务签到地点：
