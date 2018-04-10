@@ -1,9 +1,14 @@
 <template>
   <div id="adviserDetail">
     <Breadcrumb class="mt20 ml20">
-        <BreadcrumbItem>
+        <BreadcrumbItem v-if="!isVerify">
           <router-link to="/adviserList">
             村居法律顾问列表
+          </router-link>
+        </BreadcrumbItem>
+        <BreadcrumbItem v-if="isVerify">
+          <router-link to="/adviserVerify">
+            村居法律顾问审核
           </router-link>
         </BreadcrumbItem>
         <BreadcrumbItem>村居法律顾问</BreadcrumbItem>
@@ -148,7 +153,8 @@
       <Page class="pull-right mt10" :total="page.total" @on-change="loadTrip($event)" show-total show-elevator :page-size="page.pageNum"></Page>
     </div>
     <div class="text-center mt10 mb30">
-      <router-link to="/adviserList">
+      <Button v-if="isVerify" type="primary" size="large" class="width100" @click="render2()">审核</Button>
+      <router-link :to="isVerify ? '/adviserVerify' : '/adviserList'">
         <Button type="primary" size="large" class="width100">返回</Button>
       </router-link>
     </div>
@@ -169,6 +175,26 @@
           <Button type="primary" @click="ok()">新增</Button>
       </div>
     </Modal>
+    <Modal
+        width="560"
+        v-model="modal2"
+        :closable="false"
+        title="审核"
+        @on-cancel="cancel2()" 
+        class-name="vertical-center-modal">
+        <Form ref="formEdit2" :model="formEdit2" :label-width="100" :rules="ruleEdit">
+          <FormItem label="审核结果" prop="verifyStt">
+              <i-switch v-model="formEdit2.verifyStt" size="large" true-value='0' false-value='1'>
+                  <span slot="open">通过</span>
+                  <span slot="close">驳回</span>
+              </i-switch>
+          </FormItem>
+      </Form>
+      <div slot="footer">
+          <Button type="ghost" @click="cancel2">取消</Button>
+          <Button type="primary" @click="ok2()">确定</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -183,6 +209,9 @@ export default {
       formEdit: {
         communityId: [],
         communityName: []
+      },
+      formEdit2: {
+        verifyStt: '0'
       },
       ruleEdit: {
         communityId: [{
@@ -199,9 +228,11 @@ export default {
         }]
       },
       modal1: false,
+      modal2: false,
       isMuti: false,
       checkedList: [],
       lawId: '',
+      isVerify: false,
       dataDetail: '',
       columns: [
         {
@@ -257,7 +288,7 @@ export default {
                 on: {
                   click: () => {
                     console.log(params.row.lawId, this.$router)
-                    this.$router.push({path: '/tripDetail/' + this.lawId + '/' + params.row.tripNo, replace: true})
+                    this.$router.push({path: '/tripDetail/' + this.lawId + '/' + params.row.tripNo + '/' + (this.isVerify ? '1' : '0'), replace: true})
                   }
                 }
               }, '查看')
@@ -530,6 +561,43 @@ export default {
       this.modal1 = false
       this.$refs['formEdit'].resetFields()
     },
+    cancel2 () {
+      this.modal2 = false
+      this.$refs['formEdit2'].resetFields()
+    },
+    ok2 () {
+      this.$refs['formEdit2'].validate((valid) => {
+        if (valid) {
+          let paramItem = {
+            'lawId': this.lawId,
+            'verifyStt': this.formEdit2.verifyStt
+          }
+          this.$http.post(CONFIG.verifyLaw.url, {
+            head: CONFIG.verifyLaw.head,
+            body: paramItem
+          }, {
+            headers: {
+              tranCode: CONFIG.verifyLaw.head.tranCode
+            }
+          }).then(res => {
+            res = res.data
+            if (res.statusCode === CONFIG.STATUS_SUCCESS) {
+              this.$Message.success('审核成功!')
+              this.$refs['formEdit2'].resetFields()
+              this.modal2 = false
+              // this.dealProcess()
+              this.$router.push({path: '/adviserVerify'})
+            } else {
+              this.$Message.error('审核失败!' + res.descMsg ? res.descMsg : '')
+            }
+          }, res => {
+            this.$Message.error('审核失败!')
+          })
+        } else {
+          this.$Message.error('表单验证失败!')
+        }
+      })
+    },
     add () {
       this.render(-1)
     },
@@ -538,14 +606,26 @@ export default {
       //   Object.assign(this.formEdit, this.dataList[index])
       // }
       this.modal1 = true
+    },
+    render2 (index) {
+      this.modal2 = true
+    },
+    dealProcess () {
+      this.lawId = this.$route.params.lawId
+      this.isVerify = this.$route.params.isVerify == 1
+      // console.log(this.lawId, this.isVerify)
+      this.loadData() // 详情
+      this.loadTrip() // 行程
+      this.loadCommunityData(null, null, '01') // 所有社区
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      this.dealProcess()
     }
   },
   created: function () {
-    this.lawId = this.$route.params.lawId
-    console.log(this.lawId)
-    this.loadData() // 详情
-    this.loadTrip() // 行程
-    this.loadCommunityData(null, null, '01') // 所有社区
+    this.dealProcess()
   }
 }
 </script>

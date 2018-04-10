@@ -1,13 +1,18 @@
 <template>
   <div id="tripDetail">
     <Breadcrumb class="mt20 ml20">
-        <BreadcrumbItem>
+        <BreadcrumbItem v-if="!isVerify">
           <router-link to="/adviserList">
             村居法律顾问列表
           </router-link>
         </BreadcrumbItem>
+        <BreadcrumbItem v-if="isVerify">
+          <router-link to="/adviserVerify">
+            村居法律顾问审核
+          </router-link>
+        </BreadcrumbItem>
         <BreadcrumbItem>
-          <router-link :to="'/adviserDetail/' + lawId">
+          <router-link :to="'/adviserDetail/' + lawId + '/' + (isVerify ? 1 : 0)">
             村居法律顾问
           </router-link>
         </BreadcrumbItem>
@@ -36,17 +41,17 @@
                   <span v-if="dataDetail.tripStt == '3'">行程取消</span>
                   <span v-if="!dataDetail.tripStt" class="subtitle">暂无</span>
               </Col> -->
-              <Col span="8">
+              <!--Col span="8">
                   服务社区（村）：
-                  <span v-if="dataDetail.tripDate">{{dataDetail.tripDate}}</span>
-                  <span v-if="!dataDetail.tripDate" class="subtitle">暂无</span>
-              </Col>
+                  <span v-if="dataDetail.communityId">{{dataDetail.communityId}}</span>
+                  <span v-if="!dataDetail.communityId" class="subtitle">暂无</span>
+              </Col-->
           </Row>
           <Row>
               <Col span="8">
                   上门服务签到时间：
-                  <span v-if="dataDetail.communityId">{{dataDetail.communityId}}</span>
-                  <span v-if="!dataDetail.communityId" class="subtitle">暂无</span>
+                  <span v-if="dataDetail.signDate">{{dataDetail.signDate}}{{dataDetail.signTime}}</span>
+                  <span v-if="!dataDetail.signDate" class="subtitle">暂无</span>
               </Col>
               <Col span="8">
                   上门服务签到地点：
@@ -128,7 +133,7 @@
       </div>
     </div>
     <div class="text-center mt10 mb30">
-      <router-link :to="'/adviserDetail/' + lawId">
+      <router-link :to="'/adviserDetail/' + lawId + '/' + (isVerify ? 1 : 0)">
         <Button type="primary" size="large" class="width100">返回</Button>
       </router-link>
     </div>
@@ -172,13 +177,22 @@ export default {
       }, res => {
         this.$Message.error('行程详情查询失败!')
       })
+    },
+    dealProcess () {
+      this.lawId = this.$route.params.lawId
+      this.tripNo = this.$route.params.tripNo
+      this.isVerify = this.$route.params.isVerify == 1
+      // console.log(this.lawId, this.tripNo)
+      this.loadData()
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      this.dealProcess()
     }
   },
   created: function () {
-    this.lawId = this.$route.params.lawId
-    this.tripNo = this.$route.params.tripNo
-    // console.log(this.lawId, this.tripNo)
-    this.loadData()
+    this.dealProcess()
   }
 }
 </script>

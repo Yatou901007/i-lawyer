@@ -6,13 +6,13 @@
 				<Button type="ghost" @click="logout()">注销</Button>
 			</div>
 	        <div class="layout-nav">
-		        <router-link to="/adviserList" class="navbar-brand" v-bind:class="{ 'v-active': $route.name == 'adviserDetail' || $route.name == 'tripDetail'}">
+		        <router-link to="/adviserList" class="navbar-brand" v-bind:class="{ 'v-active': ($route.name == 'adviserDetail' && $route.params.isVerify == 0) || ($route.name == 'tripDetail' && $route.params.isVerify == 0)}">
 				    <MenuItem name="1">
 				        <Icon type="navicon-round"></Icon>村居法律顾问信息查看
 				    </MenuItem>
 			    </router-link> 
 			    
-			    <router-link to="/adviserVerify" class="navbar-brand">
+			    <router-link to="/adviserVerify" class="navbar-brand" v-bind:class="{ 'v-active': ($route.name == 'adviserDetail' && $route.params.isVerify == 1) || ($route.name == 'tripDetail' && $route.params.isVerify == 1)}">
 				    <MenuItem name="2">
 				        <Icon type="eye"></Icon>村居法律顾问信息审核
 				    </MenuItem>
@@ -65,6 +65,9 @@ export default {
         this.$Message.error('注销失败!')
       })
     }
+  },
+  created: function () {
+    // console.log(this.$route)
   }
 }
 </script>

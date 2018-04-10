@@ -131,10 +131,10 @@ export default {
           title: '所在单位',
           key: 'lawCompany'
         },
-        {
-          title: '服务社区（村）',
-          key: 'communityName'
-        },
+        // {
+        //   title: '服务社区（村）',
+        //   key: 'communityName'
+        // },
         {
           title: '发布行程次数',
           key: 'tripNums'
@@ -176,7 +176,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.$router.push({path: '/adviserDetail/' + params.row.lawId})
+                    this.$router.push({path: '/adviserDetail/' + params.row.lawId + '/0'})
                   }
                 }
               }, '查看详情')

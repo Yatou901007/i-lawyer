@@ -105,10 +105,10 @@ export default {
           title: '所在单位',
           key: 'lawCompany'
         },
-        {
-          title: '服务社区（村）',
-          key: 'communityId'
-        },
+        // {
+        //   title: '服务社区（村）',
+        //   key: 'communityId'
+        // },
         {
           title: '注册日期',
           key: 'tripNums'
@@ -127,7 +127,8 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.render(params.index)
+                    this.$router.push({path: '/adviserDetail/' + params.row.lawId + '/1'})
+                    // this.render(params.index)
                   }
                 }
               }, '审核')

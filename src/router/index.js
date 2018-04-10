@@ -27,12 +27,12 @@ export default new Router({
       component: AdviserList
     },
     {
-      path: '/adviserDetail/:lawId',
+      path: '/adviserDetail/:lawId/:isVerify',
       name: 'adviserDetail',
       component: AdviserDetail
     },
     {
-      path: '/tripDetail/:lawId/:tripNo',
+      path: '/tripDetail/:lawId/:tripNo/:isVerify',
       name: 'tripDetail',
       component: TripDetail
     },
