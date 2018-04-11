@@ -28,7 +28,7 @@
                   <span v-if="dataDetail.tripName">{{dataDetail.tripName}}</span>
                   <span v-if="!dataDetail.tripName" class="subtitle">暂无</span>
               </Col>
-              <Col span="8">
+              <Col span="16">
                   行程日期：
                   <span v-if="dataDetail.tripDate">{{dataDetail.tripDate.substring(0, 4) + '-' + dataDetail.tripDate.substring(4, 6) + '-' + dataDetail.tripDate.substring(6, 8)}}</span>
                   <span v-if="dataDetail.tripTime"> {{dataDetail.tripTime.substring(0, 2) + ':' + dataDetail.tripTime.substring(2, 4) + ':' + dataDetail.tripTime.substring(4, 6)}}</span>
@@ -55,7 +55,7 @@
                   <span v-if="dataDetail.signTime"> {{dataDetail.signTime.substring(0, 2) + ':' + dataDetail.signTime.substring(2, 4) + ':' + dataDetail.signTime.substring(4, 6)}}</span>
                   <span v-if="!dataDetail.signDate && !dataDetail.signTime" class="subtitle">暂无</span>
               </Col>
-              <Col span="8">
+              <Col span="16">
                   上门服务签到地点：
                   <span v-if="dataDetail.tripArea || dataDetail.tripDoor">{{dataDetail.tripArea}} {{dataDetail.tripDoor}}</span>
                   <span v-if="!dataDetail.tripArea && !dataDetail.tripDoor" class="subtitle">暂无</span>
@@ -75,6 +75,12 @@
                     <Rate :value="parseInt(dataDetail.tripScore)" disabled show-text></Rate>
                   </span>
                   <span v-if="!dataDetail.tripScore" class="subtitle">暂无</span>
+              </Col>
+          </Row>
+          <Row v-if="dataDetail.tripDoor && dataDetail.tripLatitude && dataDetail.tripLongitude">
+              <Col span="24">
+                  <div class="mb10">上门服务地图：</div>
+                  <iframe :src="'http://m.amap.com/navi/?dest=' + dataDetail.tripLatitude + ',' + dataDetail.tripLongitude + '&destName=' + dataDetail.tripDoor +'&hideRouteIcon=1&key=364d8d30ab7e0af0c43d630801356858'" frameborder="0" width="600" height="400"></iframe>
               </Col>
           </Row>
         </div>
@@ -173,6 +179,8 @@ export default {
           if (this.dataDetail.detailNums) {
             this.dataDetail.detailNums = this.dataDetail.detailNums.split('|')
           }
+          this.dataDetail.tripLatitude = parseFloat(this.dataDetail.tripLatitude).toFixed(6)
+          this.dataDetail.tripLongitude = parseFloat(this.dataDetail.tripLongitude).toFixed(6)
         } else {
           this.$Message.error('行程详情查询失败!' + head.errorMsg ? head.errorMsg : '')
         }
