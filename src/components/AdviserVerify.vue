@@ -19,14 +19,14 @@
     </div>
     <div class="card overflow">
       <div class="pull-right mb10">
-        <Button :type="formQuery.orderType == '01' ? 'info' : 'primary'" size="large" @click="formQuery.orderType='01';formQuery.orderMethod=(formQuery.orderMethod == '1' ? '0' :'1');loadData();">
+        <Button :type="formQuery.orderType == '01' ? 'info' : 'primary'" size="large" @click="formQuery.orderType='04';formQuery.orderMethod=(formQuery.orderMethod == '1' ? '0' :'1');loadData();">
           <span class="sorter">
             <Icon type="arrow-up-b" :class="formQuery.orderType == '01' && formQuery.orderMethod == '1' ? 'active' : ''"></Icon>
             <Icon type="arrow-down-b" :class="formQuery.orderType == '01' && formQuery.orderMethod == '0' ? 'active' : ''"></Icon>
           </span>
-          按评价排序
+          按注册日期排序
         </Button>
-        <Button :type="formQuery.orderType == '02' ? 'info' : 'primary'" size="large" @click="formQuery.orderType='02';formQuery.orderMethod=(formQuery.orderMethod == '1' ? '0' :'1');loadData();">
+        <!--Button :type="formQuery.orderType == '02' ? 'info' : 'primary'" size="large" @click="formQuery.orderType='02';formQuery.orderMethod=(formQuery.orderMethod == '1' ? '0' :'1');loadData();">
           <span class="sorter">
             <Icon type="arrow-up-b" :class="formQuery.orderType == '02' && formQuery.orderMethod == '1' ? 'active' : ''"></Icon>
             <Icon type="arrow-down-b" :class="formQuery.orderType == '02' && formQuery.orderMethod == '0' ? 'active' : ''"></Icon>
@@ -37,7 +37,7 @@
             <Icon type="arrow-up-b" :class="formQuery.orderType == '03' && formQuery.orderMethod == '1' ? 'active' : ''"></Icon>
             <Icon type="arrow-down-b" :class="formQuery.orderType == '03' && formQuery.orderMethod == '0' ? 'active' : ''"></Icon>
           </span>
-         按上门服务次数排序</Button>
+         按上门服务次数排序</Button-->
       </div>
       <Table border :columns="columns" :data="dataList" class="clear-both"></Table>
       <Page class="pull-right mt10" :total="page.total" @on-change="loadData($event)" show-total show-elevator :page-size="page.pageNum"></Page>
@@ -47,7 +47,7 @@
         v-model="modal1"
         :closable="false"
         title="审核"
-        @on-cancel="cancel()" 
+        @on-cancel="cancel()"
         class-name="vertical-center-modal">
         <Form ref="formEdit" :model="formEdit" :label-width="100" :rules="ruleEdit">
           <FormItem label="审核结果" prop="verifyStt">

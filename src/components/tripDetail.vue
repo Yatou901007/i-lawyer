@@ -64,7 +64,7 @@
           <Row class="mb10">
               <Col span="24">
                   上门服务签到照片：
-                  <img v-if="dataDetail.signPhoto" class="trip-detail-img" :src="dataDetail.signPhoto" alt="">
+                  <img v-if="dataDetail.signPhoto" class="trip-detail-img" :src="hostFront + dataDetail.signPhoto" alt="">
                   <span v-if="!dataDetail.signPhoto" class="subtitle">暂无</span>
               </Col>
           </Row>
@@ -80,7 +80,7 @@
           <Row v-if="dataDetail.tripDoor && dataDetail.tripLatitude && dataDetail.tripLongitude">
               <Col span="24">
                   <div class="mb10">上门服务地图：</div>
-                  <iframe :src="'http://m.amap.com/navi/?dest=' + dataDetail.tripLatitude + ',' + dataDetail.tripLongitude + '&destName=' + dataDetail.tripDoor +'&hideRouteIcon=1&key=364d8d30ab7e0af0c43d630801356858'" frameborder="0" width="600" height="400"></iframe>
+                  <iframe :src="'http://m.amap.com/navi/?dest=' + dataDetail.tripLongitude + ',' + dataDetail.tripLatitude + '&destName=' + dataDetail.tripDoor +'&hideRouteIcon=1&key=364d8d30ab7e0af0c43d630801356858'" frameborder="0" width="600" height="400"></iframe>
               </Col>
           </Row>
         </div>
@@ -154,6 +154,7 @@ export default {
   name: 'tripDetail',
   data () {
     return {
+      hostFront: CONFIG.hostFront,
       lawId: '',
       tripNo: '',
       dataDetail: ''
